@@ -80,4 +80,7 @@ Suggestions & Feedback to: corentin.pouhet-brunerie@smile.fr & isabelle.richard@
     "auto_install": False,
     "installable": True,
     "application": False,
+    "external_dependencies": {
+        'python': ['docker-py', 'flake8'],
+    },
 }
