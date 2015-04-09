@@ -24,6 +24,7 @@
     "version": "0.1beta1",
     "depends": ["smile_scm"],
     "author": "Smile",
+    "license": 'AGPL-3',
     "description": """
 Continuous Integration
 
