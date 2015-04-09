@@ -30,6 +30,7 @@
         'current_date': time.strftime('%Y-%m-%d'),
         'time': time,
         'datetime': datetime,
+        'user': self.pool.get('res.users').browse(cr, uid, uid),
         'relativedelta': relativedelta,})
 
     for act_window in self.browse(cr, uid, act_window_ids, context):
