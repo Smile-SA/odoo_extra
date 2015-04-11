@@ -208,6 +208,8 @@ class Branch(models.Model):
     def _check_ignored_tests(self):
         if not self.ignored_tests:
             return
+        if type(eval(self.ignored_tests)) != dict:
+            raise Warning(_("Please use a dict"))
         message = "Values must be of type: str, unicode or list of str / unicode"
         for value in eval(self.ignored_tests).values():
             if type(value) == list:
