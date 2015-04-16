@@ -96,7 +96,7 @@ def _write_log(vals):
             writer.writerow(KEYS)
     with open(filename, 'ab') as f:
         writer = csv.writer(f)
-        writer.writerow([tools.ustr(vals.get(key, '')) for key in KEYS])
+        writer.writerow([tools.ustr(vals.get(key, '')).encode('utf-8') for key in KEYS])
 
 
 def _get_modules_list(dbname):
