@@ -83,7 +83,7 @@
               <label for="branch_id"/>
               <field name="branch_id" class="oe_inline"/>
             </div>
-            <div class="oe_right" states="running,done">
+            <div class="oe_right" attrs="{'invisible': ['|', ('state', 'not in', ('running', 'done')), ('result', 'not in', ('stable', 'unstable'))]}">
               <button class="oe_inline oe_stat_button" name="%(action_build_failed_test)d" type="action" icon="fa-smile-o"
                 attrs="{'invisible': [('failed_test_count','&gt;', 0)]}">
                 <field string="Failed tests" name="failed_test_ratio" widget="statinfo"/>
@@ -93,7 +93,7 @@
                 <field string="Failed tests" name="failed_test_ratio" widget="statinfo"/>
               </button>
               <button class="oe_inline oe_stat_button" name="%(action_build_quality_code)d" type="action" icon="fa-code">
-                <field string="Quality code" name="quality_code_count" widget="statinfo"/>
+                <field string="Quality errors" name="quality_code_count" widget="statinfo"/>
               </button>
               <button class="oe_inline oe_stat_button" name="%(action_build_coverage)d" type="action">
                 <field string="Coverage" name="coverage_avg" widget="percentpie"/>
@@ -132,6 +132,18 @@
       <field name="view_mode">tree,form,graph</field>
       <field name="view_id" ref="view_repository_branch_build_tree"/>
       <field name="search_view_id" ref="view_repository_branch_build_search"/>
+    </record>
+    <record id="action_repository_branch_build_tree_view" model="ir.actions.act_window.view">
+      <field eval="1" name="sequence"/>
+      <field name="view_mode">tree</field>
+      <field name="view_id" ref="view_repository_branch_build_tree"/>
+      <field name="act_window_id" ref="smile_ci.action_repository_branch_build"/>
+    </record>
+    <record id="action_repository_branch_build_form_view" model="ir.actions.act_window.view">
+      <field eval="2" name="sequence"/>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="view_repository_branch_build_form"/>
+      <field name="act_window_id" ref="action_repository_branch_build"/>
     </record>
 
     <menuitem id="menu_repository_branch_build" parent="smile_scm.menu_scm" action="action_repository_branch_build" sequence="30"/>

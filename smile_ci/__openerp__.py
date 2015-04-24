@@ -25,6 +25,7 @@
     "depends": ["smile_scm"],
     "author": "Smile",
     "license": 'AGPL-3',
+    "summary": "Secure your code modifications",
     "description": """
 Continuous Integration
 
@@ -59,12 +60,18 @@ Suggestions & Feedback to: corentin.pouhet-brunerie@smile.fr & isabelle.richard@
     "category": 'Tools',
     "sequence": 20,
     "data": [
+        # Security
         "security/ir.model.access.csv",
+
+        # Data
         "data/ir_config_parameter.xml",
         "data/docker_host.xml",
         "data/scm.vcs.csv",
         "data/scm.version.csv",
         "data/ir_cron.xml",
+        "data/email_template_data.xml",
+
+        # Views
         "views/scm_repository_branch_build_coverage_view.xml",
         "views/scm_repository_branch_build_log_view.xml",
         "views/scm_repository_branch_build_view.xml",
@@ -81,6 +88,7 @@ Suggestions & Feedback to: corentin.pouhet-brunerie@smile.fr & isabelle.richard@
     "installable": True,
     "application": False,
     "external_dependencies": {
-        'python': ['docker-py', 'flake8'],
+        'bin': ['flake8'],
+        # pip dependencies: ['docker-py'],
     },
 }

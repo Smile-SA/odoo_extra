@@ -33,11 +33,11 @@ import xmlrpclib
 try:
     # For Odoo >= 6.1
     from openerp import release, sql_db, tools
-    from openerp.modules.module import load_information_from_description_file
+    from openerp.modules.module import get_module_path, load_information_from_description_file
 except ImportError:
     try:
         # For Odoo 5.0 and 6.0
-        from addons import load_information_from_description_file
+        from addons import get_module_path, load_information_from_description_file
         import release
         import sql_db
         import tools
@@ -165,6 +165,16 @@ def _build_error_message():
     return error_msg
 
 
+def _file_in_requested_directories(test_file):
+    test_path = tools.config.get('test_path')
+    if not test_path:
+        return True
+    for code_path in test_path.split(','):
+        if os.path.realpath(test_file).startswith(os.path.realpath(code_path)):
+            return True
+    return False
+
+
 def _run_other_tests(dbname, modules, ignore):
     _logger.info('Running tests other than unit...')
     db = sql_db.db_connect(dbname)
@@ -179,7 +189,8 @@ def _run_other_tests(dbname, modules, ignore):
                     'module': module,
                     'file': filename,
                 }
-                if filename in ignored_files:
+                if filename in ignored_files\
+                        or not _file_in_requested_directories(get_module_path(module)):
                     vals['result'] = 'ignored'
                     _write_log(vals)
                     continue
@@ -210,7 +221,9 @@ def _run_unit_tests(dbname, modules, ignore):
                 vals = {'module': module}
                 filename = os.path.join('tests', '%s.py' % m.__name__.split('.')[-1])
                 vals['file'] = filename
-                if filename in ignore.get(module, []) or ignore.get(module) == 'all':
+                if not _file_in_requested_directories(m.__file__) \
+                        or filename in ignore.get(module, []) \
+                        or ignore.get(module) == 'all':
                     vals['result'] = 'ignored'
                     _write_log(vals)
                     continue
