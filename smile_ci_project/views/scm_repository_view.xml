@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data noupdate="0">
+
+    <!-- Branch -->
+    <record id="view_repository_branch_tree" model="ir.ui.view">
+      <field name="name">scm.repository.branch.tree</field>
+      <field name="model">scm.repository.branch</field>
+      <field name="inherit_id" ref="smile_ci.view_repository_branch_tree"/>
+      <field name="arch" type="xml">
+        <field name="version_id" position="before">
+          <field name="project_id"/>
+        </field>
+      </field>
+    </record>
+    <record id="view_repository_branch_simple_tree" model="ir.ui.view">
+      <field name="name">scm.repository.branch.simple_tree</field>
+      <field name="model">scm.repository.branch</field>
+      <field name="inherit_id" ref="smile_ci.view_repository_branch_simple_tree"/>
+      <field name="arch" type="xml">
+        <field name="version_id" position="after">
+          <field name="project_id"/>
+        </field>
+      </field>
+    </record>
+    <record id="view_repository_branch_form" model="ir.ui.view">
+      <field name="name">scm.repository.branch.form</field>
+      <field name="model">scm.repository.branch</field>
+      <field name="inherit_id" ref="smile_ci.view_repository_branch_form"/>
+      <field name="arch" type="xml">
+        <field name="version_id" position="before">
+          <field name="project_id"/>
+        </field>
+      </field>
+    </record>
+    <record id="view_repository_branch_kanban" model="ir.ui.view">
+      <field name="name">scm.repository.branch.kanban</field>
+      <field name="model">scm.repository.branch</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="project_id">
+          <field name="project_id"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                  <span class="oe_e">í</span>
+                  <ul class="oe_dropdown_menu">
+                    <t t-if="widget.view.is_action_enabled('edit')">
+                      <li>
+                        <a type="edit">Edit...</a>
+                      </li>
+                    </t>
+                    <t t-if="widget.view.is_action_enabled('delete')">
+                      <li>
+                        <a type="delete">Delete</a>
+                      </li>
+                    </t>
+                  </ul>
+                </div>
+                <div class="oe_kanban_vignette oe_semantic_html_override">
+                  <div class="oe_kanban_details">
+                    <h4>
+                      <a type="open">
+                        <field name="name"/>
+                      </a>
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+    <record id="view_repository_branch_search" model="ir.ui.view">
+      <field name="name">scm.repository.branch.search</field>
+      <field name="model">scm.repository.branch</field>
+      <field name="inherit_id" ref="smile_scm.view_repository_branch_search"/>
+      <field name="arch" type="xml">
+        <field name="version_id" position="after">
+          <filter name="my" string="My" domain="['|', ('project_id.user_id', '=', uid), ('project_id.members', 'in', uid)]"/>
+          <newline/>
+        </field>
+      </field>
+    </record>
+    <record model="ir.actions.act_window" id="smile_scm.action_repository_branch">
+      <field name="view_mode">tree,form,kanban</field>
+      <field name="context">{'search_default_my': True}</field>
+    </record>
+    <record id="action_repository_branch_kanban_view" model="ir.actions.act_window.view">
+      <field eval="2" name="sequence"/>
+      <field name="view_mode">kanban</field>
+      <field name="view_id" ref="view_repository_branch_kanban"/>
+      <field name="act_window_id" ref="smile_scm.action_repository_branch"/>
+    </record>
+
+    <!-- Build -->
+    <record id="view_repository_branch_build_kanban" model="ir.ui.view">
+      <field name="name">scm.repository.branch.build.kanban</field>
+      <field name="model">scm.repository.branch.build</field>
+      <field name="arch" type="xml">
+        <kanban create="false" default_group_by="branch_id">
+          <field name="branch_id"/>
+          <field name="color"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                  <span class="oe_e">í</span>
+                  <ul class="oe_dropdown_menu">
+                    <t t-if="widget.view.is_action_enabled('edit')">
+                      <li>
+                        <a type="edit">Edit...</a>
+                      </li>
+                    </t>
+                    <t t-if="widget.view.is_action_enabled('delete')">
+                      <li>
+                        <a type="delete">Delete</a>
+                      </li>
+                    </t>
+                  </ul>
+                </div>
+                <div class="oe_kanban_vignette oe_semantic_html_override">
+                  <div class="oe_kanban_details">
+                    <h4>
+                      <a type="open">
+                        <label for="name">Build </label>
+                        <field name="id"/>
+                      </a>
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+    <record id="view_repository_branch_build_search" model="ir.ui.view">
+      <field name="name">scm.repository.branch.build.search</field>
+      <field name="model">scm.repository.branch.build</field>
+      <field name="inherit_id" ref="smile_ci.view_repository_branch_build_search"/>
+      <field name="arch" type="xml">
+        <field name="age" position="after">
+          <filter name="my" string="My" domain="['|', ('branch_id.project_id.user_id', '=', uid), ('branch_id.project_id.members', 'in', uid)]"/>
+          <newline/>
+        </field>
+      </field>
+    </record>
+    <record model="ir.actions.act_window" id="smile_ci.action_repository_branch_build">
+      <field name="context">{'search_default_my': True}</field>
+    </record>
+    <record id="action_repository_branch_build_kanban_view" model="ir.actions.act_window.view">
+      <field eval="3" name="sequence"/>
+      <field name="view_mode">kanban</field>
+      <field name="view_id" ref="view_repository_branch_build_kanban"/>
+      <field name="act_window_id" ref="smile_ci.action_repository_branch_build"/>
+    </record>
+
+    <!-- Logs -->
+    <record id="view_repository_branch_build_coverage_search" model="ir.ui.view">
+      <field name="name">scm.repository.branch.build.coverage.search</field>
+      <field name="model">scm.repository.branch.build.coverage</field>
+      <field name="inherit_id" ref="smile_ci.view_repository_branch_build_coverage_search"/>
+      <field name="arch" type="xml">
+        <field name="branch_rate" position="after">
+          <filter name="my" string="My" domain="['|', ('branch_id.project_id.user_id', '=', uid), ('branch_id.project_id.members', 'in', uid)]"/>
+          <newline/>
+        </field>
+      </field>
+    </record>
+    <record model="ir.actions.act_window" id="smile_ci.action_repository_branch_build_test_log">
+      <field name="context">{'search_default_warning': True, 'search_default_error': True, 'search_default_group_branch': True,
+        'search_default_group_build': True, 'search_default_group_module': True, 'search_default_my': True}</field>
+    </record>
+    <record model="ir.actions.act_window" id="smile_ci.action_repository_branch_build_quality_log">
+      <field name="context">{'search_default_warning': True, 'search_default_error': True, 'search_default_group_branch': True,
+        'search_default_group_build': True, 'search_default_group_module': True, 'search_default_my': True}</field>
+    </record>
+    <record model="ir.actions.act_window" id="smile_ci.action_build_quality_code">
+      <field name="context">{'search_default_warning': True, 'search_default_error': True}</field>
+    </record>
+    <record model="ir.actions.act_window" id="smile_ci.action_build_failed_test">
+      <field name="context">{'search_default_warning': True, 'search_default_error': True, 'search_default_group_module': True}</field>
+    </record>
+
+    <!-- Coverage -->
+    <record id="view_repository_branch_build_log_search" model="ir.ui.view">
+      <field name="name">scm.repository.branch.build.log.search</field>
+      <field name="model">scm.repository.branch.build.log</field>
+      <field name="inherit_id" ref="smile_ci.view_repository_branch_build_log_search"/>
+      <field name="arch" type="xml">
+        <field name="exception" position="after">
+          <filter name="my" string="My" domain="['|', ('branch_id.project_id.user_id', '=', uid), ('branch_id.project_id.members', 'in', uid)]"/>
+          <newline/>
+        </field>
+      </field>
+    </record>
+    <record model="ir.actions.act_window" id="smile_ci.action_repository_branch_build_coverage">
+      <field name="context">{'search_default_group_branch': True, 'search_default_group_build': True, 'search_default_group_module': True,
+        'search_default_my': True}</field>
+    </record>
+
+  </data>
+</openerp>

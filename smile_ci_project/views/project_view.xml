@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data noupdate="0">
+
+    <!-- Hide native menu project -->
+    <record id="base.menu_main_pm" model="ir.ui.menu">
+      <field name="groups_id" eval="[(6, 0, [ref('smile_base.group_hidden')])]"/>
+    </record>
+
+    <!-- Branch -->
+    <record model="ir.actions.act_window" id="action_branches">
+      <field name="name">Branches</field>
+      <field name="res_model">scm.repository.branch</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,graph</field>
+      <field name="view_id" ref="view_repository_branch_tree"/>
+      <field name="search_view_id" ref="view_repository_branch_search"/>
+      <field name="context">{'default_project_id': active_id}</field>
+      <field name="domain">[('project_id', '=', active_id)]</field>
+    </record>
+
+    <!-- Project -->
+    <record id="edit_project" model="ir.ui.view">
+      <field name="name">project.project.form</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.edit_project"/>
+      <field name="arch" type="xml">
+        <div name="buttons" position="inside">
+          <button class="oe_inline oe_stat_button" name="%(action_branches)d" type="action" icon="fa-terminal">
+            <field string="Branches" name="branches_count" widget="statinfo"/>
+          </button>
+        </div>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="view_project_kanban">
+      <field name="name">project.project.kanban</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.view_project_kanban"/>
+      <field name="arch" type="xml">
+        <field name="doc_count" position="after">
+          <field name="branches_count"/>
+        </field>
+        <div class="oe_kanban_project_list" position="after">
+          <a t-if="record.branches_count.raw_value" name="%(action_branches)d" type="action" style="margin-right: 10px">
+            <field name="branches_count"/>
+            Branches
+          </a>
+        </div>
+      </field>
+    </record>
+
+  </data>
+</openerp>

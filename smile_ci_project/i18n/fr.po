@@ -1,0 +1,41 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* smile_ci_project
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150317\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-31 19:49+0000\n"
+"PO-Revision-Date: 2015-03-31 19:49+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#: model:ir.model,name:smile_ci_project.model_scm_repository_branch
+#. module: smile_ci_project
+msgid "Branch"
+msgstr "Branche"
+
+#: model:ir.actions.act_window,name:smile_ci_project.action_branches
+#: view:project.project:smile_ci_project.edit_project
+#: view:project.project:smile_ci_project.view_project_kanban
+#: field:project.project,branch_ids:0
+#. module: smile_ci_project
+msgid "Branches"
+msgstr "Branches"
+
+#: model:ir.model,name:smile_ci_project.model_res_partner
+#. module: smile_ci_project
+msgid "Partner"
+msgstr "Partenaire"
+
+#: model:ir.model,name:smile_ci_project.model_project_project
+#: field:scm.repository.branch,project_id:0
+#. module: smile_ci_project
+msgid "Project"
+msgstr "Projet"
+
