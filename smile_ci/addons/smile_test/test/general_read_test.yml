@@ -39,6 +39,9 @@
                 res_ids = model_obj.search(cr, uid, [], context=context)
                 test_type = 'read_all'
                 res_infos = model_obj.read(cr, uid, res_ids, [], context)
+                if hasattr(orm, 'TransientModel') and isinstance(model_obj, orm.TransientModel) or \
+                        hasattr(orm, 'orm_memory') and isinstance(model_obj, orm.orm_memory):
+                    continue
                 test_type = 'name_get'
                 res_infos = model_obj.name_get(cr, uid, res_ids, context)
         except Exception, e:

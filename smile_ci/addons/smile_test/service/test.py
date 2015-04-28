@@ -162,7 +162,7 @@ def _build_error_message():
         yaml_error = yaml_error % numbered_line_statement
         error_msg += '\n%s' % yaml_error
     error_msg += """\nLocal variables in deepest are: %s """ % repr(deepest_frame.f_locals)
-    return error_msg
+    return error_msg.encode('utf-8')
 
 
 def _file_in_requested_directories(test_file):

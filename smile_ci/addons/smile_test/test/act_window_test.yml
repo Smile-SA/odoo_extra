@@ -57,4 +57,3 @@
     if errors:
         err_details = "\n".join(["(%s, %s, %s, %s, %s): %s" % (act_window, model, domain, limit, context, err) for act_window, model, domain, limit, context, err in errors])
         raise Exception('Error in search/read for act_window/model and error:\n%s' % err_details)
-
