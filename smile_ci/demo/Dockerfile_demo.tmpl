@@ -18,7 +18,7 @@ RUN apt-get update && apt-get -y install python-pip \
 	cloc python-coverage python-flake8 \
 	python-unittest2 \
 	wget fontconfig libfontconfig1 libfreetype6 libpng12-0 zlib1g libjpeg-turbo8 libssl1.0.0 libx11-6 libxext6 libxrender1 xfonts-base xfonts-75dpi libstdc++6 libc6 \
-	&& cd /tmp && wget http://heanet.dl.sourceforge.net/project/wkhtmltopdf/archive/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb \
+	&& cd /tmp && wget http://download.gna.org/wkhtmltopdf/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb \
 	&& dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
 
 # Install PostgreSQL
